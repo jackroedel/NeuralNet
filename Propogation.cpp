@@ -1,6 +1,9 @@
 #include <vector>
+#include "Propogation.h"
 #include "Functions.h"
 #include "Scaffold.h"
+
+using namespace Propogation;
 
 void FeedForward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer, int GenNum)
 {
@@ -42,12 +45,20 @@ void FeedForward(std::vector<float> InputLayer, std::vector<std::vector<float>> 
 
 void FeedBackward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer, std::vector<std::vector<float>>, int GenNum)
 {
+
+    float Average;
     for (int i = 0; i < Scaffold::OutputCount; i++)
     {
         Scaffold::OutError[i] = Functions::MSqrE(Scaffold::OutputVal[i], Scaffold::SampleDatOut[GenNum][i]);
+        for (int i = 0; i < Scaffold::OutError.size(); i++)
+        {
+            Average += Scaffold::OutError[i];
+        }
+        Average = Average / Scaffold::OutError.size();
     }
     for (int i = 0; i < Scaffold::OutWeights.size(); i++)
     {
-        Scaffold::OutWeights[i] = (Scaffold::OutWeights[i])
+        Scaffold::OutWeights[i] = (Scaffold::SampleDatOut[GenNum][i * Scaffold::OutputCount], Functions::MSqrEDeriv(Scaffold::OutputVal[i * Scaffold::OutputCount], Average) 
+        * (Functions::SigmoidDeriv(Scaffold::OutWeights[i])) * Scaffold::OutWeights[i]);
     }
 }

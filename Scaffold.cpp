@@ -7,25 +7,11 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include "Scaffold.h"
 
-unsigned int InputCount;
-unsigned int OutputCount;
-unsigned int HiddenLayerCount;
-unsigned int NeuronCount;
-unsigned int InputNum;
+using namespace Scaffold;
 
-std::vector<float> InWeights;
-std::vector<float> OutWeights;
-std::vector<std::vector<float>> HiddenWeights;
-std::vector<std::vector<float>> SampleDatIn;
-std::vector<std::vector<float>> SampleDatOut;
-std::vector<float> Bias;
-std::vector<std::vector<float>> BiasWeight;
-std::vector<std::vector<float>> HiddenVal;
-std::vector<float> OutputVal;
-std::vector<float> OutError;
-
-void Input(std::string txt)
+void Scaffold::Input(std::string txt)
 {
     std::ifstream InputFile(txt);
     std::cin >> InputCount;
@@ -60,12 +46,12 @@ void Input(std::string txt)
     InputFile.close();
 }
 
-float RandWeight()
+float Scaffold::RandWeight()
 {
     return ( ((float)rand() / (float)RAND_MAX) - 0.5);
 }
 
-void InitNet()
+void Scaffold::InitNet()
 {
     InWeights.resize(InputCount * NeuronCount);
     for (int i = 0; i < InWeights.size(); i++)
@@ -102,7 +88,7 @@ void InitNet()
     {
         for (int m = 0; m < (NeuronCount); m++)
         {
-            BiasWeight[i][m] = RandWeight();
+            BiasWeight[i][m] = Scaffold::RandWeight();
         }
     }
 }

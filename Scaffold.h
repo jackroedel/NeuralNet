@@ -1,6 +1,9 @@
-#pragma once
+#ifndef COMMANDS_H_
+#define COMMANDS_H_
+
 #include <vector>
 #include <string>
+#include "Scaffold.h"
 
 namespace Scaffold
 {
@@ -16,9 +19,11 @@ namespace Scaffold
     std::vector<std::vector<float>> SampleDatOut;
     std::vector<float> Bias;
     std::vector<std::vector<float>> BiasWeight;
-    std::vector<std::vector<float>> HiddenVal;
+    std::vector<std::vector<float>> HiddenVal;fdsafsda
     std::vector<float> OutputVal;
     std::vector<float> OutError;
     void InitNet();
     void Input(std::string txt);
+   float RandWeight();
 }
+#endif

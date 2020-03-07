@@ -1,5 +1,8 @@
 #include <vector>
 #include <iostream>
+#include "HyperParam.h"
+
+using namespace HyperParam;
 
 //Special Hyperparameters
 template <class T>
@@ -25,7 +28,7 @@ template<class R>
 std::ostream& operator<<(std::ostream& os, std::vector<std::vector<R>> &InputVec)
 {
     os << "[";
-    for (int i = 0; i < InputVec.size(); i++);
+    for (int i = 0; i < InputVec.size(); i++)
     {    
         for (int m = 0; m < InputVec[0].size(); m++)
         {

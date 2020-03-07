@@ -3,6 +3,7 @@
 namespace Functions
 {
     float MSqrE(float Expected, float Actual);
+    float MSqrEDeriv(float Real, float Expected);
     float MAbsE(float Expected, float Actual);
     float MSqrLogE(float Expected, float Actual);
     float MAbsPerE(float Expected, float Actual);

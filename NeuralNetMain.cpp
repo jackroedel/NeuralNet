@@ -1,4 +1,4 @@
-#include <fstream>
+#include <iostream>
 #include <iostream>
 #include "Propogation.h"
 #include "HyperParam.h"
@@ -6,6 +6,7 @@
 
 int main()
 {
+    /*
     Scaffold::Input("Input.txt");
     Scaffold::InitNet();
     Propogation::FeedForward(Scaffold::InWeights, Scaffold::HiddenWeights, Scaffold::OutWeights, 0);
@@ -14,5 +15,6 @@ int main()
         std::cout << Scaffold::OutputVal[i] << " ";
     }
     std::cin.get();
+    */
     return 0;
 }
