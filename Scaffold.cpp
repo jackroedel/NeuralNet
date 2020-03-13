@@ -9,7 +9,21 @@
 #include <algorithm>
 #include "Scaffold.h"
 
-using namespace Scaffold;
+unsigned int InputCount;
+unsigned int OutputCount;
+unsigned int HiddenLayerCount;
+unsigned int NeuronCount;
+unsigned int InputNum;
+std::vector<float> InWeights;
+std::vector<float> OutWeights;
+std::vector<std::vector<float>> HiddenWeights;
+std::vector<std::vector<float>> SampleDatIn;
+std::vector<std::vector<float>> SampleDatOut;
+std::vector<float> Bias;
+std::vector<std::vector<float>> BiasWeight;
+std::vector<std::vector<float>> HiddenVal;
+std::vector<float> OutputVal;
+std::vector<float> OutError;
 
 void Scaffold::Input(std::string txt)
 {
@@ -19,7 +33,6 @@ void Scaffold::Input(std::string txt)
     std::cin >> HiddenLayerCount;
     std::cin >> NeuronCount;
     std::cin >> InputNum;
-
     float Val;
     std::vector<float> TempIn;
     std::vector<float> TempOut;
@@ -88,7 +101,7 @@ void Scaffold::InitNet()
     {
         for (int m = 0; m < (NeuronCount); m++)
         {
-            BiasWeight[i][m] = Scaffold::RandWeight();
+            BiasWeight[i][m] = RandWeight();
         }
     }
 }
