@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS = -std=c++17 -Wall -Wextra 
 
-SRCS = $(wildcard *.h)
+SRCS = $(wildcard *.cpp)
 OBJS = $(SRCS:.cpp=.o)
 
 NeuralNet: $(OBJS)
@@ -12,3 +12,6 @@ NeuralNet: $(OBJS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 .PHONY: clean
+
+run:    ${PROGRAM_NAME}
+	./${PROGRAM} ${ARGS}

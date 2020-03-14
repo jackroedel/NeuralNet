@@ -5,6 +5,11 @@
       "taskLabel": "task-VSrepos",
       "appliesTo": "/",
       "type": "launch"
+    },
+    {
+      "taskLabel": "task-VSrepos",
+      "appliesTo": "/",
+      "type": "launch"
     }
   ]
 }

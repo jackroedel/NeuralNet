@@ -8,51 +8,36 @@
 #include <cmath>
 #include <algorithm>
 #include "Scaffold.h"
-
-unsigned int InputCount;
-unsigned int OutputCount;
-unsigned int HiddenLayerCount;
-unsigned int NeuronCount;
-unsigned int InputNum;
-std::vector<float> InWeights;
-std::vector<float> OutWeights;
-std::vector<std::vector<float>> HiddenWeights;
-std::vector<std::vector<float>> SampleDatIn;
-std::vector<std::vector<float>> SampleDatOut;
-std::vector<float> Bias;
-std::vector<std::vector<float>> BiasWeight;
-std::vector<std::vector<float>> HiddenVal;
-std::vector<float> OutputVal;
-std::vector<float> OutError;
+#include "Variables.h"
 
 void Scaffold::Input(std::string txt)
 {
     std::ifstream InputFile(txt);
-    std::cin >> InputCount;
-    std::cin >> OutputCount;
-    std::cin >> HiddenLayerCount;
-    std::cin >> NeuronCount;
-    std::cin >> InputNum;
+    std::cin >> Variables::InputCount;
+    std::cin >> Variables::OutputCount;
+    std::cin >> Variables::HiddenLayerCount;
+    std::cin >> Variables::NeuronCount;
+    std::cin >> Variables::InputNum;
     float Val;
     std::vector<float> TempIn;
     std::vector<float> TempOut;
 
-    for (int i; i < InputNum; i++)
+    for (int i; i < Variables::InputNum; i++)
     {
-        for (int j = 0; j < InputCount; j++)
+        for (int j = 0; j < Variables::InputCount; j++)
         {
             std::cin >> Val;
             TempIn.push_back(Val);
         }
-        SampleDatIn.push_back(TempIn);
+        Variables::SampleDatIn.push_back(TempIn);
         TempIn.clear();
 
-        for (int m = 0; m < OutputCount; m++)
+        for (int m = 0; m < Variables::OutputCount; m++)
         {
             std::cin >> Val;
             TempOut.push_back(Val);
         }
-        SampleDatOut.push_back(TempOut);
+        Variables::SampleDatOut.push_back(TempOut);
         TempOut.clear();
     }
 
@@ -66,42 +51,42 @@ float Scaffold::RandWeight()
 
 void Scaffold::InitNet()
 {
-    InWeights.resize(InputCount * NeuronCount);
-    for (int i = 0; i < InWeights.size(); i++)
+    Variables::InWeights.resize(Variables::InputCount * Variables::NeuronCount);
+    for (int i = 0; i < Variables::InWeights.size(); i++)
     {
-        InWeights[i] = RandWeight();
+        Variables::InWeights[i] = Scaffold::RandWeight();
     }
 
-    OutWeights.resize(OutputCount * NeuronCount);
-    OutError.resize(OutputCount);
-    for (int i = 0; i < OutWeights.size(); i ++)
+    Variables::OutWeights.resize(Variables::OutputCount * Variables::NeuronCount);
+    Variables::OutError.resize(Variables::OutputCount);
+    for (int i = 0; i < Variables::OutWeights.size(); i ++)
     {
-        OutWeights[i] = RandWeight();
+        Variables::OutWeights[i] = RandWeight();
     }
 
-    HiddenWeights.resize(HiddenLayerCount - 1, std::vector<float>(NeuronCount * NeuronCount));
-    HiddenVal.assign(HiddenLayerCount, std::vector<float>(NeuronCount, 0.0));
-    OutputVal.resize(OutputCount);
-    for (int i = 0; i < HiddenLayerCount - 1; i ++)
+    Variables::HiddenWeights.resize(Variables::HiddenLayerCount - 1, std::vector<float>(Variables::NeuronCount * Variables::NeuronCount));
+    Variables::HiddenVal.assign(Variables::HiddenLayerCount, std::vector<float>(Variables::NeuronCount, 0.0));
+    Variables::OutputVal.resize(Variables::OutputCount);
+    for (int i = 0; i < Variables::HiddenLayerCount - 1; i ++)
     {
-        for (int m = 0; m < (NeuronCount * NeuronCount); m++)
+        for (int m = 0; m < (Variables::NeuronCount * Variables::NeuronCount); m++)
         {
-            HiddenWeights[i][m] = RandWeight();
+            Variables::HiddenWeights[i][m] = RandWeight();
         }
     }
 
-    Bias.resize(HiddenLayerCount + 1);
-    for (int i = 0; i < Bias.size(); i ++)
+    Variables::Bias.resize(Variables::HiddenLayerCount + 1);
+    for (int i = 0; i < Variables::Bias.size(); i ++)
     {
-        Bias[i] = 1;
+        Variables::Bias[i] = 1;
     }
 
-    BiasWeight.resize(HiddenLayerCount - 1, std::vector<float>(NeuronCount));
-    for (int i = 0; i < HiddenLayerCount - 1; i ++)
+    Variables::BiasWeight.resize(Variables::HiddenLayerCount - 1, std::vector<float>(Variables::NeuronCount));
+    for (int i = 0; i < Variables::HiddenLayerCount - 1; i ++)
     {
-        for (int m = 0; m < (NeuronCount); m++)
+        for (int m = 0; m < (Variables::NeuronCount); m++)
         {
-            BiasWeight[i][m] = RandWeight();
+            Variables::BiasWeight[i][m] = RandWeight();
         }
     }
 }
