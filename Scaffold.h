@@ -1,4 +1,4 @@
-#ifndef SCAFFOLD_H
+#pragma once
 #include <vector>
 #include <string>
 
@@ -8,4 +8,3 @@ namespace Scaffold
     void Input(std::string txt);
     float RandWeight();
 }
-#endif // !SCAFFOLD_H
