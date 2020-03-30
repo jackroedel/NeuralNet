@@ -1,20 +1,24 @@
 #include <iostream>
-#include <iostream>
+#include <fstream>
+#include <vector>
 #include "Propogation.h"
-#include "HyperParam.h"
 #include "Scaffold.h"
+#include "Variables.h"
+#include "Functions.h"
+
+int Jack;
 
 int main()
 {
-    /*
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
     Scaffold::Input("Input.txt");
     Scaffold::InitNet();
-    Propogation::FeedForward(Scaffold::InWeights, Scaffold::HiddenWeights, Scaffold::OutWeights, 0);
-    for (int i = 0; i < Scaffold::OutputCount; i++)
+    Propogation::FeedForward(Variables::InWeights, Variables::HiddenWeights, Variables::OutWeights, 0, Functions::ReLUFunc, Functions::SigmoidFunc);
+    //Propogation::FeedBackward(Variables::InWeights, Variables::HiddenWeights, Variables::OutWeights, Functions::ReLUFunc, Functions::SigmoidFunc);
+    for (int i = 0; i < Variables::OutputCount; i++)
     {
-        std::cout << Scaffold::OutputVal[i] << " ";
+        std::cout << Variables::OutputVal[i];
     }
-    std::cin.get();
-    */
     return 0;
 }

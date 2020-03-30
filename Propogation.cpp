@@ -2,63 +2,66 @@
 #include "Propogation.h"
 #include "Functions.h"
 #include "Scaffold.h"
+#include "Variables.h"
 
-using namespace Propogation;
-
-void FeedForward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer, int GenNum)
+void Propogation::FeedForward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer, int GenNum, float(*SquashMid)(float), float(*SquashOut)(float))
 {
-    float sum;
-
-    //First hidden layer
-    for (int i = 0; i < Scaffold::NeuronCount; i++)
+    /*
+    //First hidden layer (INput Layer)
+    for (int i = 0; i < Variables::NeuronCount; i++)
     {
-        for (int m = 0; m < Scaffold::InputCount; m++)
+        for (int m = 0; m < Variables::InputCount; m++)
         {
-            Scaffold::HiddenVal[0][i] += Scaffold::SampleDatIn[GenNum][m] * InputLayer[(m * Scaffold::NeuronCount) + i];
+           Variables::HiddenVal[0][i] += Variables::SampleDatIn[GenNum][m] * InputLayer[(m * Variables::NeuronCount) + i];
         }
-        Scaffold::HiddenVal[0][i] = Functions::ReLUFunc(Scaffold::HiddenVal[0][i] + (Scaffold::Bias[0] * Scaffold::BiasWeight[0][i]));
+        Variables::Values[0][i] = Variables::HiddenVal[0][i];
+        Variables::HiddenVal[0][i] = SquashMid(Variables::HiddenVal[0][i] + (Variables::Bias[0] * Variables::BiasWeight[0][i]));
     }
-
     //All hidden layers
-    for (int i = 1; i < Scaffold::HiddenLayerCount; i++)
+    for (int i = 0; i < Variables::HiddenLayerCount; i++)
     {
-        for (int m = 0; m < Scaffold::NeuronCount; m++)
+        for (int m = 0; m < Variables::NeuronCount; m++)
         {
-            for (int j = 0; j < Scaffold::NeuronCount; j++) //For the previous neuron layer
+            for (int j = 0; j < Variables::NeuronCount; j++) //For the previous neuron layer
             {
-                Scaffold::HiddenVal[i][m] += (Scaffold::HiddenVal[i - 1][j] * HiddenLayer[i - 1][(j * Scaffold::NeuronCount) + m]);
+                Variables::HiddenVal[i + 1][m] += (Variables::HiddenVal[i][j] * HiddenLayer[i][(j * Variables::NeuronCount) + m]);
             }
-            Scaffold::HiddenVal[i][m] = Functions::ReLUFunc(Scaffold::HiddenVal[i][m] + (Scaffold::Bias[i] * Scaffold::BiasWeight[i][m]));
-        }
-    }
+            Variables::Values[i][m] = Variables::HiddenVal[i + 1][m];
+            Variables::HiddenVal[i][m] = SquashMid(Variables::HiddenVal[i][m] + (Variables::Bias[i] * Variables::BiasWeight[i][m]));
 
-    //Output Weights
-    for (int i = 0; i < Scaffold::OutputCount; i++)
-    {
-        for (int m = 0; m < Scaffold::NeuronCount; m++)
-        {
-            Scaffold::OutputVal[i] = (Scaffold::HiddenVal[Scaffold::HiddenLayerCount - 1][m] * OutputLayer[(m * Scaffold::NeuronCount) + i]);
         }
-        Scaffold::OutputVal[i] = Functions::SigmoidFunc(Scaffold::OutputVal[i] + Scaffold::Bias[Scaffold::HiddenLayerCount + 1] * Scaffold::BiasWeight[Scaffold::HiddenLayerCount + 1][i]);
+    }*/
+    //Output Weights
+    for (int i = 0; i < Variables::OutputCount; i++)
+    {
+        for (int m = 0; m < Variables::NeuronCount; m++)
+        {  
+           Variables::OutputVal[i] += (Variables::HiddenVal[Variables::HiddenLayerCount - 1][m] * OutputLayer[(m + i) * Variables::OutputCount]);
+        }
+        Variables::OutputVal[i]= SquashOut(Variables::OutputVal[i] + Variables::Bias[Variables::HiddenLayerCount + 1] * Variables::BiasWeight[Variables::HiddenLayerCount - 1][i]);
     }
 }
 
-void FeedBackward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer, std::vector<std::vector<float>>, int GenNum)
+void Propogation::FeedBackward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer,
+std::vector<std::vector<float>>, int GenNum, float(*MidDeriv)(float), float(*OutDeriv)(float), float(*Error)(float, float), float(*ErrorDeriv)(float, float))
 {
-
+/*
     float Average;
-    for (int i = 0; i < Scaffold::OutputCount; i++)
+    for (int i = 0; i < Variables::OutputCount; i++)
     {
-        Scaffold::OutError[i] = Functions::MSqrE(Scaffold::OutputVal[i], Scaffold::SampleDatOut[GenNum][i]);
-        for (int i = 0; i < Scaffold::OutError.size(); i++)
+        Variables::OutError[i] = Error(Variables::OutputVal[i], Variables::SampleDatOut[GenNum][i]);
+        for (int i = 0; i < Variables::OutError.size(); i++)
         {
-            Average += Scaffold::OutError[i];
+            Average += Variables::OutError[i];
         }
-        Average = Average / Scaffold::OutError.size();
+        Average = Average / Variables::OutputCount;
     }
-    for (int i = 0; i < Scaffold::OutWeights.size(); i++)
+    for (int i = 0; i < Variables::OutputCount; i++)
     {
-        Scaffold::OutWeights[i] = (Scaffold::SampleDatOut[GenNum][i * Scaffold::OutputCount], Functions::MSqrEDeriv(Scaffold::OutputVal[i * Scaffold::OutputCount], Average) 
-        * (Functions::SigmoidDeriv(Scaffold::OutWeights[i])) * Scaffold::OutWeights[i]);
-    }
+        for(int m = 0; m < Variables::NeuronCount; m++)
+        {
+           // Variables::OutWeights[m * Variables::OutputCount] = Variables::OutWeights[i] - (ErrorDeriv(Variables::OutError[i], 
+            //Variables::SampleDatOut[GenNum][i]) * OutDeriv(Variables::HiddenLayerCount* Variables::Values[Variables::HiddenLayerCount - 1][0]);
+        }
+    }*/
 }
