@@ -89,8 +89,8 @@ void Scaffold::InitNet()
         Variables::Bias[i] = 1;
     }
 
-    Variables::BiasWeight.resize(Variables::HiddenLayerCount - 2, std::vector<float>(Variables::NeuronCount));
-    for (int i = 0; i < Variables::HiddenLayerCount - 2; i ++)
+    Variables::BiasWeight.resize(Variables::HiddenLayerCount + 1, std::vector<float>(Variables::NeuronCount));
+    for (int i = 0; i < Variables::HiddenLayerCount + 1; i ++)
     {
         for (int m = 0; m < Variables::NeuronCount; m++)
         {
@@ -106,4 +106,5 @@ void Scaffold::InitNet()
     }
     Variables::BiasWeight.push_back(Temp);
     
+    Variables::Values.resize(Variables::HiddenLayerCount, std::vector<float>(Variables::NeuronCount));
 }

@@ -4,9 +4,10 @@
 #include "Scaffold.h"
 #include "Variables.h"
 
-void Propogation::FeedForward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer, int GenNum, float(*SquashMid)(float), float(*SquashOut)(float))
+void FeedForward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer,
+    std::vector<float> OutputLayer, int GenNum, float(*SquashMid)(float), float(*SquashOut)(float))
 {
-    /*
+    
     //First hidden layer (INput Layer)
     for (int i = 0; i < Variables::NeuronCount; i++)
     {
@@ -30,7 +31,7 @@ void Propogation::FeedForward(std::vector<float> InputLayer, std::vector<std::ve
             Variables::HiddenVal[i][m] = SquashMid(Variables::HiddenVal[i][m] + (Variables::Bias[i] * Variables::BiasWeight[i][m]));
 
         }
-    }*/
+    }
     //Output Weights
     for (int i = 0; i < Variables::OutputCount; i++)
     {
@@ -40,28 +41,16 @@ void Propogation::FeedForward(std::vector<float> InputLayer, std::vector<std::ve
         }
         Variables::OutputVal[i]= SquashOut(Variables::OutputVal[i] + Variables::Bias[Variables::HiddenLayerCount + 1] * Variables::BiasWeight[Variables::HiddenLayerCount - 1][i]);
     }
+
 }
 
-void Propogation::FeedBackward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer,
-std::vector<std::vector<float>>, int GenNum, float(*MidDeriv)(float), float(*OutDeriv)(float), float(*Error)(float, float), float(*ErrorDeriv)(float, float))
+void FeedBackward(std::vector<float> InputLayer, std::vector<std::vector<float>> HiddenLayer, std::vector<float> OutputLayer,
+    std::vector<std::vector<float>>, int GenNum, float(*MidDeriv)(float), float(*OutDeriv)(float), float(*Error)(float, float), float(*ErrorDeriv)(float, float))
 {
-/*
-    float Average;
-    for (int i = 0; i < Variables::OutputCount; i++)
+    for (int i = 0; i < Variables::NeuronCount * Variables::OutputCount; i++)
     {
-        Variables::OutError[i] = Error(Variables::OutputVal[i], Variables::SampleDatOut[GenNum][i]);
-        for (int i = 0; i < Variables::OutError.size(); i++)
-        {
-            Average += Variables::OutError[i];
-        }
-        Average = Average / Variables::OutputCount;
+        Variables::OutWeights[i / Variables::NeuronCount] -= (OutDeriv(Variables::OutputVal[i%Variables::OutputCount])
+         * Variables::Values[Variables::HiddenLayerCount - 1][i / Variables::NeuronCount]);
     }
-    for (int i = 0; i < Variables::OutputCount; i++)
-    {
-        for(int m = 0; m < Variables::NeuronCount; m++)
-        {
-           // Variables::OutWeights[m * Variables::OutputCount] = Variables::OutWeights[i] - (ErrorDeriv(Variables::OutError[i], 
-            //Variables::SampleDatOut[GenNum][i]) * OutDeriv(Variables::HiddenLayerCount* Variables::Values[Variables::HiddenLayerCount - 1][0]);
-        }
-    }*/
+        
 }
