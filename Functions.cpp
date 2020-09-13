@@ -1,10 +1,16 @@
 #include <cmath>
 #include <algorithm>
+#include <utility>
 #include "Functions.h"
 
 //Loss Functions for regression
 
-float Functions::MSqrE(float Expected, float Actual) {return ((Actual - Expected) * (Actual - Expected));}
+float Functions::MSqrEFunc(float Expected, float Actual) 
+{
+    return ((Actual - Expected) * (Actual - Expected));
+}
+
+//float(*Functions::MSqrE)(float Expected, float Actual)
 
 float Functions::MSqrEDeriv(float Real, float Expected)
 {

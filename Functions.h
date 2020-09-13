@@ -1,9 +1,30 @@
 #pragma once
+#include <utility>
 
 namespace Functions
 {
-    float MSqrE(float Expected, float Actual);
+    struct ErrorFunction
+    {
+        float (*Function)(float, float);
+        float (*FunctionDeriv)(float, float);
+        ErrorFunction(float (*Func)(float, float), float (*FuncDeriv)(float, float))
+        :Function(Func), FunctionDeriv(FuncDeriv){}
+    };  
+
+    struct ActivationFunction
+    {
+        float (*Function)(float);
+        float (*FunctionDeriv)(float);
+        ActivationFunction(float (*Func)(float), float (*FuncDeriv)(float))
+        :Function(Func), FunctionDeriv(FuncDeriv){}
+    }; 
+
+    float MSqrEFunc(float Expected, float Actual);
     float MSqrEDeriv(float Real, float Expected);
+    
+    ErrorFunction MeanSquaredError(MSqrEFunc, MSqrEDeriv);
+
+// ToDo: Define and wirte the Deriv for all these functions
     float MAbsE(float Expected, float Actual);
     float MSqrLogE(float Expected, float Actual);
     float MAbsPerE(float Expected, float Actual);
@@ -15,15 +36,25 @@ namespace Functions
     float HardTanhDeriv(float x);
     float HardTanhFunc(float x);
 
+    ActivationFunction HardTanh(HardTanhFunc, HardTanhDeriv);
+
     float TanhDeriv(float x);
     float TanhFunc(float x);
+
+    ActivationFunction Tanh(TanhFunc, TanhDeriv);
 
     float LinearDeriv(float x);
     float LinearFunc(float x);
 
+    ActivationFunction Linear(LinearFunc, LinearDeriv);
+
     float ReLUDeriv(float x);
     float ReLUFunc(float x);
 
+    ActivationFunction ReLU(ReLUFunc, ReLUDeriv);
+
     float SigmoidDeriv(float x);
     float SigmoidFunc(float x);
+
+    ActivationFunction Sigmoid(SigmoidFunc, SigmoidDeriv);
 }
