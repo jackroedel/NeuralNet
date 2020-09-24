@@ -1,9 +1,44 @@
+#pragma once
 #include <cmath>
 #include <algorithm>
 #include <utility>
 #include "Functions.h"
 
-//Loss Functions for regression
+namespace Functions 
+{
+    struct ErrorFunction
+    {
+        float (*Function)(float, float);
+        float (*FunctionDeriv)(float, float);/*
+        ErrorFunction(float (*Func)(float, float), float (*FuncDeriv)(float, float))
+            :Function(Func), FunctionDeriv(FuncDeriv) {}*/
+    };
+
+    struct ActivationFunction
+    {
+        float (*Function)(float);
+        float (*FunctionDeriv)(float);/*
+        Functions::Functions::ActivationFunctionss(float (*Func)(float), float (*FuncDeriv)(float))
+            :Function(Func), FunctionDeriv(FuncDeriv) {}*/
+    };
+
+
+}
+struct ErrorFunction
+{
+    float (*Function)(float, float);
+    float (*FunctionDeriv)(float, float);/*
+    ErrorFunction(float (*Func)(float, float), float (*FuncDeriv)(float, float))
+        :Function(Func), FunctionDeriv(FuncDeriv) {}*/
+};
+
+struct ActivationFunction
+{
+    float (*Function)(float);
+    float (*FunctionDeriv)(float);/*
+    Functions::Functions::ActivationFunctionss(float (*Func)(float), float (*FuncDeriv)(float))
+        :Function(Func), FunctionDeriv(FuncDeriv) {}*/
+};
 
 float Functions::MSqrEFunc(float Expected, float Actual) 
 {
@@ -16,6 +51,8 @@ float Functions::MSqrEDeriv(float Real, float Expected)
 {
     return (2 * (Real - Expected));
 }
+
+ErrorFunction MeanSquaredError{ Functions::MSqrEFunc, Functions::MSqrEDeriv };
 
 float Functions::MAbsE(float Expected, float Actual) {return abs(Actual - Expected);}
 
@@ -55,6 +92,8 @@ float Functions::SigmoidFunc(float x) {return (1 / (1 + std::exp(-x)));}
 
 float Functions::SigmoidDeriv(float x) {return SigmoidFunc(x) * (1 - SigmoidFunc(x));}
 
+Functions::ActivationFunction Sigmoid{ Functions::SigmoidFunc, Functions::SigmoidDeriv };
+
 float Functions::ReLUFunc(float x)
 {
     if (x <= 0.0) {return 0.0;}
@@ -67,13 +106,19 @@ float Functions::ReLUDeriv(float x)
     else {return 1.0;}
 }
 
-float Functions::LinearFunc(float x) {return x;}
+Functions::ActivationFunction ReLU{ Functions::ReLUFunc, Functions::ReLUDeriv };
+
+float Functions::LinearFunc(float x) { return x; }
 
 float Functions::LinearDeriv(float x) {return 1;}
+
+Functions::ActivationFunction Linear{ Functions::LinearFunc, Functions::LinearDeriv };
 
 float Functions::TanhFunc(float x) {return std::tanh(x);}
 
 float Functions::TanhDeriv(float x) {return (1-(std::tanh(x) * std::tanh(x)));}
+
+Functions::ActivationFunction Tanh{ Functions::TanhFunc, Functions::TanhDeriv };
 
 float Functions::HardTanhFunc(float x)
 {
@@ -88,4 +133,4 @@ float Functions::HardTanhDeriv(float x)
     else {return 0;}
 }
 
-//Geradient descent functions
+Functions::ActivationFunction HardTanh{ Functions::HardTanhFunc, Functions::HardTanhDeriv };

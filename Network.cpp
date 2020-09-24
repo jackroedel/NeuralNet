@@ -25,7 +25,7 @@ class Network
             Net.push_back(Layer);
         }
 
-        void Initialize();
+        /*void Initialize()
         {
             for (int i = 0; i < Net.size(); i++)
             {
@@ -36,6 +36,6 @@ class Network
         void XavierInit()
         {
 
-        }
+        }*/
 
 };
