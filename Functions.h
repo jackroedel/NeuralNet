@@ -3,9 +3,21 @@
 
 namespace Functions
 {
-    struct ErrorFunction;
+    struct ErrorFunction
+    {
+        float (*Function)(float, float);
+        float (*FunctionDeriv)(float, float);/*
+        ErrorFunction(float (*Func)(float, float), float (*FuncDeriv)(float, float))
+            :Function(Func), FunctionDeriv(FuncDeriv) {}*/
+    };
 
-    struct ActivationFunction;
+    struct ActivationFunction
+    {
+        float (*Function)(float);
+        float (*FunctionDeriv)(float);/*
+        Functions::Functions::ActivationFunctionss(float (*Func)(float), float (*FuncDeriv)(float))
+            :Function(Func), FunctionDeriv(FuncDeriv) {}*/
+    };
     
     float MSqrEFunc(float Expected, float Actual);
 
