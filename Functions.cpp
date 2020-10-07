@@ -6,39 +6,11 @@
 
 namespace Functions 
 {
-    struct ErrorFunction
-    {
-        float (*Function)(float, float);
-        float (*FunctionDeriv)(float, float);/*
-        ErrorFunction(float (*Func)(float, float), float (*FuncDeriv)(float, float))
-            :Function(Func), FunctionDeriv(FuncDeriv) {}*/
-    };
+    struct ErrorFunction;
 
-    struct ActivationFunction
-    {
-        float (*Function)(float);
-        float (*FunctionDeriv)(float);/*
-        Functions::Functions::ActivationFunctionss(float (*Func)(float), float (*FuncDeriv)(float))
-            :Function(Func), FunctionDeriv(FuncDeriv) {}*/
-    };
-
-
+    struct ActivationFunction;
 }
-struct ErrorFunction
-{
-    float (*Function)(float, float);
-    float (*FunctionDeriv)(float, float);/*
-    ErrorFunction(float (*Func)(float, float), float (*FuncDeriv)(float, float))
-        :Function(Func), FunctionDeriv(FuncDeriv) {}*/
-};
 
-struct ActivationFunction
-{
-    float (*Function)(float);
-    float (*FunctionDeriv)(float);/*
-    Functions::Functions::ActivationFunctionss(float (*Func)(float), float (*FuncDeriv)(float))
-        :Function(Func), FunctionDeriv(FuncDeriv) {}*/
-};
 
 float Functions::MSqrEFunc(float Expected, float Actual) 
 {
@@ -52,7 +24,7 @@ float Functions::MSqrEDeriv(float Real, float Expected)
     return (2 * (Real - Expected));
 }
 
-ErrorFunction MeanSquaredError{ Functions::MSqrEFunc, Functions::MSqrEDeriv };
+Functions::ErrorFunction MeanSquaredError{ Functions::MSqrEFunc, Functions::MSqrEDeriv };
 
 float Functions::MAbsE(float Expected, float Actual) {return abs(Actual - Expected);}
 
@@ -111,8 +83,6 @@ Functions::ActivationFunction ReLU{ Functions::ReLUFunc, Functions::ReLUDeriv };
 float Functions::LinearFunc(float x) { return x; }
 
 float Functions::LinearDeriv(float x) {return 1;}
-
-Functions::ActivationFunction Linear{ Functions::LinearFunc, Functions::LinearDeriv };
 
 float Functions::TanhFunc(float x) {return std::tanh(x);}
 
