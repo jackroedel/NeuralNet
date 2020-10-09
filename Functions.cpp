@@ -84,6 +84,8 @@ float Functions::LinearFunc(float x) { return x; }
 
 float Functions::LinearDeriv(float x) {return 1;}
 
+Functions::ActivationFunction Linear{ Functions::LinearFunc, Functions::LinearDeriv };
+
 float Functions::TanhFunc(float x) {return std::tanh(x);}
 
 float Functions::TanhDeriv(float x) {return (1-(std::tanh(x) * std::tanh(x)));}
