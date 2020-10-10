@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "Functions.h"
-#include "Network.cpp"
+#include "Network.h"
 
 int main()
 {
