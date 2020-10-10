@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef NETWORK_H_
+#define NETWORK_H_
+
 #include "Functions.h"
 #include <vector>
 
@@ -52,3 +56,5 @@ public:
 
     void RandInit();
 };
+
+#endif
