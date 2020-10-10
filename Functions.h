@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef FUNCTIONS_H_
+#define FUNCTIONS_H_
+
 #include <utility>
 
 namespace Functions
@@ -42,7 +46,7 @@ namespace Functions
     float TanhDeriv(float x);
     float TanhFunc(float x);
 
-    extern ActivationFunction Tanh;
+    ActivationFunction Tanh;
 
     float LinearDeriv(float x);
     float LinearFunc(float x);
@@ -59,3 +63,5 @@ namespace Functions
 
     extern ActivationFunction Sigmoid;
 }
+
+#endif
