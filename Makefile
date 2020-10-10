@@ -12,7 +12,7 @@ NeuralNet: $(OBJS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 clean:
-	rm *.o NeuralNet
+	rm -f *.o NeuralNet
 
 .PHONY: clean
 
