@@ -14,7 +14,7 @@ inline FCLayer::FCLayer()
     HI = 1;
 }
 
-inline FCLayer::FCLayer(Functions::ActivationFunction Func, int Neurons)
+FCLayer::FCLayer(Functions::ActivationFunction Func, int Neurons)
     :ActFunction(Func), NeuronCount(Neurons) {}
 
 inline FCLayer::FCLayer(Functions::ActivationFunction Func)
@@ -33,7 +33,7 @@ inline int Network::Size()
     return Net.size();
 }
 
-inline void Network::PushBack(FCLayer Layer)
+void Network::PushBack(FCLayer Layer)
 {
     Net.push_back(Layer);
 }
