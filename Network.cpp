@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <random>
-#include "Variables.h"
 #include "Functions.h"
 #include "Network.h"
 

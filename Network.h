@@ -1,5 +1,4 @@
 #pragma once
-#include "Functions.h"
 #include <vector>
 
 struct LayerTemplate //Template for all following layer types
@@ -16,7 +15,7 @@ struct LayerTemplate //Template for all following layer types
 struct FCLayer : public LayerTemplate
 {
 private:
-    Functions::ActivationFunction ActFunction;
+    Functions::ActivationFunction ActFunction = Functions::Sigmoid;
     //The activation function used in this layer
 
     std::vector<float> CurrentValues; //This is equal to the input or the last value, after it was manipulated by weights, bias, etc.
