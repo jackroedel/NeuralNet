@@ -2,11 +2,12 @@
 #include <vector>
 #include <random>
 #include <iostream>
+#include <memory>
 #include "Functions.h"
 #include "Network.h"
 
 
-inline FCLayer::FCLayer()
+FCLayer::FCLayer()
 {
     ActFunction = Functions::Sigmoid;
     NeuronCount = 0;
@@ -18,12 +19,12 @@ inline FCLayer::FCLayer()
 FCLayer::FCLayer(Functions::ActivationFunction Func, int Neurons)
     :ActFunction(Func), NeuronCount(Neurons) {}
 
-inline FCLayer::FCLayer(Functions::ActivationFunction Func)
+FCLayer::FCLayer(Functions::ActivationFunction Func)
     :ActFunction(Func) {}
 
 void FCLayer::RandInit(int NextLayerParams) //Randomly Initializes the network
 {
-    std::cout << NeuronCount;
+    std::cout << "fheuwioa";
     for (int m = 0; m < NeuronCount * NextLayerParams; m++)
     {
         std::cout << NeuronCount << std::endl;
@@ -46,7 +47,8 @@ int FCLayer::ParameterCount()
     return NeuronCount;
 }
 
-inline ConvLayer::ConvLayer(int ZeroPadsIn, int StrideIn, int Height, int Width, int DepthIn)
+
+ConvLayer::ConvLayer(int ZeroPadsIn, int StrideIn, int Height, int Width, int DepthIn)
 {
     FilterDimensions.first = Height;
     FilterDimensions.second = Width;
@@ -56,7 +58,7 @@ inline ConvLayer::ConvLayer(int ZeroPadsIn, int StrideIn, int Height, int Width,
     Filter.reserve(FilterDimensions.first * FilterDimensions.second);
 }
 
-void ConvLayer::Propogate(LayerTemplate *PreviousLayer)
+void ConvLayer::Propogate(LayerTemplate* PreviousLayer)
 {
     for (int i = 0; PreviousLayer->LayerInput_2D.size(); i++)
     {
@@ -64,14 +66,19 @@ void ConvLayer::Propogate(LayerTemplate *PreviousLayer)
     }
 }
 
+void ConvLayer::RandInit(int NextLayerParams)
+{
+    std::cout << "Conv Layer";
+}
+
 inline int Network::Size()
 {
     return Net.size();
 }
 
-void Network::PushBack(FCLayer Layer)
+void Network::PushBack(LayerTemplate Layer)
 {
-    Net.push_back(Layer);
+    Net.push_back(&Layer);
 }
 
 void Network::RandInit()
@@ -80,16 +87,11 @@ void Network::RandInit()
     {
         return;
     }
-    else if (Net.size() == 1 )
-    {
-        Net[0].RandInit(1);
-        std::cout << "Called RandInit";
-    }
     else
     {
         for (int i = 0; i < Net.size(); i++)
         {
-            Net[i].RandInit(Net[i + 1].ParamaterCount());
+            Net[i]->RandInit(1);
         }
     }
 }
@@ -98,11 +100,11 @@ void Network::Propogate()
 {
     for (int i = 1; i < Net.size(); i++)
     {
-        if ((Net[i - 1].LayerInput_1D.size() > 0) && (Net[i].LayerInput_1D.size() > 0))
+        if ((Net[i - 1]->LayerInput_1D.size() > 0) && (Net[i]->LayerInput_1D.size() > 0))
         {
             std::cout << "Error: Incompatable dimensions at layer " << i << std::endl;
         }
-        Net[i].Propogate(&Net[i-1]);
+        Net[i]->Propogate(Net[i-1]);
     }
 }
 

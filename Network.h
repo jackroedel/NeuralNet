@@ -2,17 +2,23 @@
 
 #include <utility>
 #include <vector>
+#include <memory>
 
 class Network;
 
 struct LayerTemplate //Template for all following layer types
 {
-    virtual void Propogate(LayerTemplate *PreviousLayer)
+    LayerTemplate()
+    {
+    };
+
+    virtual void Propogate(LayerTemplate* PreviousLayer)
     {
     }
 
     virtual void RandInit(int NextLayerParams)
     {
+        std::cout << "fewa";
     }
 
     virtual int ParamaterCount()
@@ -22,6 +28,8 @@ struct LayerTemplate //Template for all following layer types
     virtual void XavierInit(Network *Net)
     {
     }
+
+    std::vector<float> Weights;
 
     int Dimension;
 
@@ -52,6 +60,10 @@ struct FCLayer : public LayerTemplate
 
     std::vector<float> Weights;
 
+    virtual ~FCLayer()
+    {
+    }
+
 private:
     Functions::ActivationFunction ActFunction = Functions::Sigmoid;
     //The activation function used in this layer
@@ -67,8 +79,13 @@ private:
 struct ConvLayer : public LayerTemplate
 {
     void Propogate(LayerTemplate* PreviousLayer);
-
+    
+    void RandInit(int NextLayerParams);
     ConvLayer(int ZeroPadsIn, int StrideIn, int Height, int Width, int DepthIn);
+
+    virtual ~ConvLayer()
+    {
+    }
 private:
     int Depth;
     int Stride;
@@ -86,11 +103,11 @@ private:
 
     std::vector<int> Inputs;
 public:
-    std::vector<LayerTemplate> Net;
+    std::vector<LayerTemplate*> Net;
 
     int Size();
 
-    void PushBack(FCLayer Layer);
+    void PushBack(LayerTemplate Layer);
 
     void RandInit();
 
